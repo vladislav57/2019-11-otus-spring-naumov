@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="consoleWriter" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="ru.otus.homework01.service.ConsoleCommunicationServiceImpl"/>
+    </bean>
+
+    <bean id="questionInitializer" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="ru.otus.homework01.service.InitQuestionsFromFileServiceImpl"/>
+    </bean>
+
+    <bean id="enquiryService" class="ru.otus.homework01.service.EnquiryServiceImpl">
+        <constructor-arg name="communicationService" ref="consoleWriter"></constructor-arg>
+        <constructor-arg name="initQuestionsService" ref="questionInitializer"></constructor-arg>
+    </bean>
+
+</beans>
