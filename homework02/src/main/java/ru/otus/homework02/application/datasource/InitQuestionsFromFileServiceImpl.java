@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -21,10 +22,11 @@ public class InitQuestionsFromFileServiceImpl implements InitQuestionsService {
 
     private final List<EnquiryQuestion> enquiryQuestionList;
 
-    InitQuestionsFromFileServiceImpl(@Value("${enquiry.questions.file}") final String fileName) {
+    InitQuestionsFromFileServiceImpl(@Value("${enquiry.questions.file}") final String fileName,
+                                     final Locale locale) {
         this.enquiryQuestionList = new ArrayList<>();
 
-        final Resource resource = new ClassPathResource(fileName);
+        final Resource resource = new ClassPathResource(fileName + "_" + locale.toString() + ".csv");
         try (CSVReader reader = new CSVReader(new FileReader(resource.getFile()))) {
             readQuestionsFromCsvFile(enquiryQuestionList, reader);
         } catch (IOException e) {

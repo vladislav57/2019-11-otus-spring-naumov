@@ -1,25 +1,37 @@
 package ru.otus.homework02.application.datasource;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.homework02.domain.application.CommunicationService;
 import ru.otus.homework02.domain.model.EnquiryQuestion;
 import ru.otus.homework02.domain.model.User;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 @Service
 public class ConsoleCommunicationServiceImpl implements CommunicationService {
 
-    private final static String INVITATION_TO_INPUT_ANSWER =
-            "Please, input answer option (number/letter):";
     private final Scanner scanner = new Scanner(System.in);
+    private final MessageSource messageSource;
+    private final Locale locale;
+
+    public ConsoleCommunicationServiceImpl(final MessageSource messageSource,
+                                           final Locale locale) {
+        this.messageSource = messageSource;
+        this.locale = locale;
+    }
 
     @Override
     public User getUserDataFromUser() {
-        System.out.println("Please, input your name:");
+        System.out.println(
+                messageSource.getMessage("user.input.name.request", null, locale)
+        );
         final String name = scanner.nextLine();
-        System.out.println("Please, input your surname:");
+        System.out.println(
+                messageSource.getMessage("user.input.surname.request", null, locale)
+        );
         final String surname = scanner.nextLine();
         return new User(name, surname);
     }
@@ -35,33 +47,47 @@ public class ConsoleCommunicationServiceImpl implements CommunicationService {
 
     @Override
     public void getAnswersForAllQuestionsFromUser(final List<EnquiryQuestion> enquiryQuestionList) {
-        System.out.println("\r\nLet's start the test.\r\n");
+        System.out.println(
+                messageSource.getMessage("test.start.message", null, locale)
+        );
         for (EnquiryQuestion question : enquiryQuestionList) {
             getAnswerForQuestionFromUser(question);
         }
-        System.out.println("\r\nThe test is finished.\r\n");
+        System.out.println(
+                messageSource.getMessage("test.finish.message", null, locale)
+        );
     }
 
     private void getAnswerForQuestionFromUser(final EnquiryQuestion question) {
         System.out.println(question.getQuestionText());
         System.out.println(question.getAnswersText());
-        System.out.println(INVITATION_TO_INPUT_ANSWER);
+        System.out.println(
+                messageSource.getMessage("answer.input.request", null, locale)
+        );
         question.checkAnswer(scanner.nextLine());
     }
 
     private void printResultHeader(final User user) {
-        System.out.println(String.format("%s %s, thank you for passing the test",
-                user.getName(), user.getSurname()));
-        System.out.println("Your answer / Question");
+        System.out.println(
+                messageSource.getMessage("result.heading.message",
+                        new String[] {user.getName(), user.getSurname()},
+                        locale)
+        );
     }
 
     private void printResult(final EnquiryQuestion question) {
         if (question.isUserAnswerCorrect()) {
-            System.out.println(String.format("correct     / %s", question.getQuestionText()));
+            System.out.println(
+                    messageSource.getMessage("correct.answer.message",
+                            new String[] {question.getQuestionText()},
+                            locale)
+            );
         } else {
-            System.out.println(String.format("wrong       / %s", question.getQuestionText()));
+            System.out.println(
+                    messageSource.getMessage("wrong.answer.message",
+                            new String[] {question.getQuestionText()},
+                            locale)
+            );
         }
     }
-
-
 }

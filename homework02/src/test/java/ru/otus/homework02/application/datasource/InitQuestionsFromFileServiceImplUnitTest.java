@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 import ru.otus.homework02.domain.model.EnquiryQuestion;
 
 import java.util.List;
+import java.util.Locale;
 
 class InitQuestionsFromFileServiceImplUnitTest {
 
     @Test
     void testServiceCanReadQuestionsFromValidFile() {
         final InitQuestionsFromFileServiceImpl initQuestionsService =
-                new InitQuestionsFromFileServiceImpl("valid-file.csv");
+                new InitQuestionsFromFileServiceImpl("valid-file", Locale.US);
         final List<EnquiryQuestion> questionList = initQuestionsService.getAllQuestions();
         final SoftAssertions softly = new SoftAssertions();
         softly.assertThat(questionList)
@@ -26,7 +27,7 @@ class InitQuestionsFromFileServiceImplUnitTest {
     @Test
     void testServiceReturnsEmptyListForNonExistingFile() {
         final InitQuestionsFromFileServiceImpl initQuestionsService =
-                new InitQuestionsFromFileServiceImpl("non-existing-file.csv");
+                new InitQuestionsFromFileServiceImpl("non-existing-file", Locale.US);
         final List<EnquiryQuestion> questionList = initQuestionsService.getAllQuestions();
         final SoftAssertions softly = new SoftAssertions();
         softly.assertThat(questionList)
