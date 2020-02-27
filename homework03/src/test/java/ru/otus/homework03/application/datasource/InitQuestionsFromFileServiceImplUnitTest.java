@@ -1,6 +1,6 @@
 package ru.otus.homework03.application.datasource;
 
-import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.otus.homework03.domain.model.EnquiryQuestion;
 
@@ -10,18 +10,11 @@ import java.util.Locale;
 class InitQuestionsFromFileServiceImplUnitTest {
 
     @Test
-    void testServiceCanReadQuestionsFromValidFile() {
+    void testServiceCanReadAllQuestionsFromValidFile() {
         final InitQuestionsFromFileServiceImpl initQuestionsService =
                 new InitQuestionsFromFileServiceImpl("valid-file", Locale.US);
         final List<EnquiryQuestion> questionList = initQuestionsService.getAllQuestions();
-        final SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(questionList)
-                .withFailMessage("Failed to create EnquiryQuestion list")
-                .isNotNull();
-        softly.assertThat(questionList.size())
-                .withFailMessage("Failed to parse all questions from file")
-                .isEqualTo(5);
-        softly.assertAll();
+        Assertions.assertThat(questionList).isNotNull().hasSize(5);
     }
 
     @Test
@@ -29,13 +22,6 @@ class InitQuestionsFromFileServiceImplUnitTest {
         final InitQuestionsFromFileServiceImpl initQuestionsService =
                 new InitQuestionsFromFileServiceImpl("non-existing-file", Locale.US);
         final List<EnquiryQuestion> questionList = initQuestionsService.getAllQuestions();
-        final SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(questionList)
-                .withFailMessage("Failed to create EnquiryQuestion list")
-                .isNotNull();
-        softly.assertThat(questionList)
-                .withFailMessage("Failed to parse all questions from file")
-                .isEmpty();
-        softly.assertAll();
+        Assertions.assertThat(questionList).isNotNull().isEmpty();
     }
 }

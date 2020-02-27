@@ -8,7 +8,7 @@ import ru.otus.homework03.domain.application.EnquiryServiceImpl;
 import ru.otus.homework03.domain.application.InitQuestionsService;
 
 @Configuration
-public class DatasourceConfig {
+public class DataSourceConfig {
 
     @Bean
     public EnquiryService enquiryService(final CommunicationService communicationService,

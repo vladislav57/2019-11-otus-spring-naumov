@@ -2,6 +2,7 @@ package ru.otus.homework03.domain.application;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -15,16 +16,20 @@ class EnquiryServiceImplUnitTest {
 
     @Mock
     private List<EnquiryQuestion> enquiryQuestionList;
+    @Mock
+    private User user;
+    @Mock
+    private InitQuestionsService initQuestionsService;
+    @Mock
+    private CommunicationService communicationService;
+    @InjectMocks
+    private EnquiryServiceImpl enquiryService;
 
     @Test
     void testPerformInquiryWithAllQuestions() {
-        final User user = Mockito.mock(User.class);
-        final InitQuestionsService initQuestionsService = Mockito.mock(InitQuestionsService.class);
-        final CommunicationService communicationService = Mockito.mock(CommunicationService.class);
         Mockito.when(initQuestionsService.getAllQuestions()).thenReturn(enquiryQuestionList);
         Mockito.when(communicationService.getUserDataFromUser()).thenReturn(user);
 
-        final EnquiryService enquiryService = new EnquiryServiceImpl(communicationService, initQuestionsService);
         enquiryService.performEnquiryWithAllQuestions();
 
         Mockito.verify(initQuestionsService).getAllQuestions();

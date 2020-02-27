@@ -19,7 +19,7 @@ class EnquiryQuestionTest {
     private EnquiryQuestion question;
 
     @BeforeEach
-    private void prepareQuestion() {
+    void prepareQuestion() {
         final List<Answer> answerList = Arrays.asList(correctAnswer, incorrectAnswer);
         question = new EnquiryQuestion("testQuestionText", answerList);
     }
@@ -36,7 +36,6 @@ class EnquiryQuestionTest {
         question.checkAnswer("1");
 
         Mockito.verifyNoInteractions(incorrectAnswer);
-        Mockito.verify(correctAnswer).isCorrect();
         Assertions.assertThat(question.isUserAnswerCorrect()).isTrue();
     }
 
@@ -47,7 +46,6 @@ class EnquiryQuestionTest {
         question.checkAnswer("2");
 
         Mockito.verifyNoInteractions(correctAnswer);
-        Mockito.verify(incorrectAnswer).isCorrect();
         Assertions.assertThat(question.isUserAnswerCorrect()).isFalse();
     }
 
