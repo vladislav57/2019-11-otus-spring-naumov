@@ -1,0 +1,6 @@
+${AnsiColor.RED}
+My custom banner.
+${AnsiColor.BLUE}
+Application version: ${application.version}
+Application title: ${application.title}
+${AnsiColor.DEFAULT}
